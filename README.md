@@ -2,6 +2,11 @@
 
 A research-paper search engine that retrieves academic papers from arXiv, indexes them using vector embeddings, and answers research questions using Retrieval-Augmented Generation (RAG).
 
+## Application Preview
+
+![Research Paper Explorer](screenshots/research-paper-explorer.png)
+
+
 ## Features
 
 - **Paper ingestion:** Fetches recent papers from arXiv.
@@ -160,3 +165,7 @@ These results are preliminary because the evaluation set is small and relevance 
 ## License
 
 Add a license appropriate for your project before distributing it publicly.
+
+## Application Preview
+
+![Research Paper Explorer](screenshots/research-paper-explorer.png)
