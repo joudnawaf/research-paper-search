@@ -11,6 +11,24 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: pgvector/pgvector:pg17
+        env:
+          POSTGRES_DB: research_papers
+          POSTGRES_USER: jude
+          POSTGRES_PASSWORD: test_password
+        ports:
+          - 5434:5432
+        options: >-
+          --health-cmd "pg_isready -U jude -d research_papers"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      DATABASE_URL: postgresql://jude:test_password@localhost:5434/research_papers
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -26,6 +44,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest
+
+      - name: Initialize database schema
+        run: |
+          PGPASSWORD=test_password psql \
+            -h localhost -p 5434 -U jude -d research_papers \
+            -f schema.sql
 
       - name: Run tests
         run: python -m pytest -q
