@@ -1,6 +1,38 @@
-.venv/
-pycache/
+
+# Python
+__pycache__/
 *.py[cod]
+*.egg-info/
+
+# Virtual environments
+.venv/
+venv/
+
+# Environment variables and secrets
 .env
+.env.*
+
+# Streamlit
+.streamlit/secrets.toml
+
+# macOS
 .DS_Store
+
+# Testing
 .pytest_cache/
+.coverage
+htmlcov/
+
+# Logs
+logs/
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+
+# dbt generated files
+research_papers_dbt/target/
+research_papers_dbt/logs/
+
+# dbt local configuration
+research_papers_dbt/profiles.yml

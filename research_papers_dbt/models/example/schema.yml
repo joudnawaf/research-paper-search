@@ -1,0 +1,18 @@
+
+version: 2
+
+models:
+  - name: stg_papers
+    description: "Cleaned research paper metadata from arXiv."
+    columns:
+      - name: arxiv_id
+        data_tests:
+          - not_null
+
+      - name: title
+        data_tests:
+          - not_null
+
+      - name: version
+        data_tests:
+          - not_null
