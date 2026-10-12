@@ -5,6 +5,7 @@ import psycopg
 from src.ingestion.fetch_papers import parse_feed
 from src.processing.pipeline import process_paper
 from tests.test_fetch_papers import SAMPLE_XML
+from src.ingestion.db_connection import get_connection_string
 
 
 class TestPipeline(unittest.TestCase):
@@ -15,9 +16,7 @@ class TestPipeline(unittest.TestCase):
 
         self.assertGreater(chunk_count, 0)
 
-        with psycopg.connect(
-            "host=localhost port=5434 dbname=research_papers user=jude"
-        ) as conn:
+        with psycopg.connect(get_connection_string()) as conn:
             with conn.cursor() as cur:
                 cur.execute(
                     """

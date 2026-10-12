@@ -3,3 +3,4 @@ psycopg-binary==3.3.6
 sentence-transformers
 streamlit==1.65.0
 ollama
+python-dotenv

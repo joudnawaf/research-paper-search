@@ -4,12 +4,9 @@ import psycopg
 from src.ingestion.fetch_papers import Paper
 from src.processing.chunking import chunk_text
 from src.processing.embeddings import generate_embeddings
+from src.ingestion.db_connection import get_connection_string
 
 
-CONNECTION_STRING = (
-    "host=localhost port=5434 "
-    "dbname=research_papers user=jude"
-)
 
 
 def process_paper(paper: Paper) -> int:
@@ -20,7 +17,7 @@ def process_paper(paper: Paper) -> int:
 
     vectors = generate_embeddings([chunk.content for chunk in chunks])
 
-    with psycopg.connect(CONNECTION_STRING) as conn:
+    with psycopg.connect(get_connection_string()) as conn:
         with conn.cursor() as cur:
             cur.execute(
                 """

@@ -1,12 +1,10 @@
 
 import psycopg
 
+from src.ingestion.db_connection import get_connection_string
 from src.processing.embeddings import generate_embeddings
 
-CONNECTION_STRING = (
-    "host=localhost port=5434 "
-    "dbname=research_papers user=jude"
-)
+
 
 
 def search_papers(
@@ -20,7 +18,7 @@ def search_papers(
 
     vector = generate_embeddings([query])[0]
 
-    with psycopg.connect(CONNECTION_STRING) as conn:
+    with psycopg.connect(get_connection_string()) as conn:
         with conn.cursor() as cur:
             cur.execute(
                 """
@@ -77,7 +75,7 @@ def keyword_search(query: str, limit: int = 5) -> list[dict]:
     if limit <= 0:
         raise ValueError("Limit must be positive")
 
-    with psycopg.connect(CONNECTION_STRING) as conn:
+    with psycopg.connect(get_connection_string()) as conn:
         with conn.cursor() as cur:
             cur.execute(
                 """

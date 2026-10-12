@@ -51,7 +51,7 @@ A research-paper search engine that retrieves academic papers from arXiv, indexe
 ### 1. Clone the repository
 
 ```bash
-git clone <YOUR_REPOSITORY_URL>
+git clone <https://github.com/joudnawaf/research-paper-search.git>
 cd research-paper-search
 ```
 
@@ -68,17 +68,44 @@ source .venv/bin/activate
 python -m pip install -r requirements.txt
 ```
 
+
 ### 4. Configure PostgreSQL
 
-Install PostgreSQL and pgvector, create a database named `research_papers`, and configure the connection settings used by the project.
+The project uses PostgreSQL with the pgvector extension to store paper metadata, text chunks, and embeddings.
 
-The current local development configuration uses:
+#### Option A: Docker (recommended)
 
-- Host: `localhost`
-- Port: `5434`
-- Database: `research_papers`
+Install [Docker Desktop](https://www.docker.com/products/docker-desktop/), then start the database from the project root:
 
-Ensure that PostgreSQL is running and that the required database tables and pgvector extension have been created before running the pipeline.
+```bash
+docker compose up -d db
+```
+
+The Compose configuration creates a PostgreSQL 17 database with pgvector, initializes the tables using `schema.sql`, and exposes the database on port `5435`.
+
+Create a local `.env` file in the project root:
+
+```dotenv
+DATABASE_URL=postgresql://research_papers:research_papers_dev@localhost:5435/research_papers
+EMBEDDING_MODEL=sentence-transformers/all-MiniLM-L6-v2
+```
+
+The `.env` file is ignored by Git. `.env.example` documents the required settings.
+
+To check that the database is running:
+
+```bash
+docker compose ps
+```
+
+#### Option B: Existing PostgreSQL installation
+
+You can use an existing PostgreSQL database instead. Configure `DATABASE_URL` in your `.env` file with your database connection details.
+
+If `DATABASE_URL` is not set, the application falls back to the local development connection configured in `src/ingestion/db_connection.py` (port `5434`).
+
+Ensure that PostgreSQL, the required tables, and pgvector are available before running ingestion or search.
+
 
 ### 5. Configure Ollama
 
@@ -124,7 +151,15 @@ Run the automated test suite:
 python -m pytest -q
 ```
 
-The test suite previously completed with **21 passing tests** in the local development environment.
+T
+Run the tests using the project's Python environment:
+
+```bash
+./.venv/bin/python -m pytest -q
+```
+
+The test suite includes tests for ingestion, chunking, embeddings, database storage, retrieval, and question answering.
+
 
 ## Search Evaluation
 
@@ -164,8 +199,4 @@ These results are preliminary because the evaluation set is small and relevance 
 
 ## License
 
-Add a license appropriate for your project before distributing it publicly.
-
-## Application Preview
-
-![Research Paper Explorer](screenshots/research-paper-explorer.png)
+This project is licensed under the [MIT License](LICENSE).

@@ -1,15 +1,11 @@
 
 import psycopg
+from src.ingestion.db_connection import get_connection_string
 from src.ingestion.fetch_papers import Paper
 
 
 def save_papers_to_db(papers: list[Paper]) -> None:
-    connection_string = (
-        "host=localhost port=5434 "
-        "dbname=research_papers user=jude"
-    )
-
-    with psycopg.connect(connection_string) as conn:
+    with psycopg.connect(get_connection_string()) as conn:
         with conn.cursor() as cur:
             cur.executemany(
                 """
