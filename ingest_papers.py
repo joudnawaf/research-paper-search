@@ -5,13 +5,13 @@ from src.processing.pipeline import process_paper
 
 
 def main():
-    print("Fetching 10 AI research papers from arXiv...")
+    print("Fetching 300 AI research papers from arXiv...")
 
-    papers = fetch_papers(
-        search_query="cat:cs.AI",
-        max_results=10,
-        page_size=10,
-    )
+papers = fetch_papers(
+    search_query="cat:cs.AI",
+    max_results=300,
+    page_size=50,
+)
 
     if not papers:
         print("No papers returned. Check the API error or try again later.")
