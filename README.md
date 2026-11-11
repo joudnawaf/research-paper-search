@@ -49,7 +49,7 @@ A research-paper search engine that retrieves academic papers from arXiv, indexe
 ### 1. Clone the repository
 
 ```bash
-git clone <https://github.com/joudnawaf/research-paper-search.git>
+git clone https://github.com/joudnawaf/research-paper-search.git
 cd research-paper-search
 ```
 
