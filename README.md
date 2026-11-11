@@ -197,4 +197,4 @@ These results are preliminary because the evaluation set is small and relevance 
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the MIT License. See the LICENSE file.
