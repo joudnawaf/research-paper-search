@@ -2,6 +2,10 @@
 
 A research-paper search engine that retrieves academic papers from arXiv, indexes them using vector embeddings, and answers research questions using Retrieval-Augmented Generation (RAG).
 
+## Application Preview
+
+![Research Paper Explorer](screenshots/research-paper-explorer.png)
+
 
 
 
@@ -33,6 +37,21 @@ A research-paper search engine that retrieves academic papers from arXiv, indexe
 - pytest
 
 ## Architecture
+
+```mermaid
+flowchart LR
+  A[arXiv] --> B[Ingest and validate]
+  I[Airflow schedule] --> B
+  B --> C[Chunk text]
+  C --> D[Embed with all-MiniLM-L6-v2]
+  D --> E[(PostgreSQL + pgvector)]
+  E --> J[dbt models and tests]
+  E --> F[Semantic / keyword / hybrid retrieval]
+  F --> G[Ollama qwen2.5:3b]
+  G --> H[Answer with citations]
+  F --> K[Streamlit app]
+  H --> K
+```
 
 1. Fetch paper metadata and text from arXiv.
 2. Validate the retrieved data.
@@ -149,7 +168,7 @@ Run the automated test suite:
 python -m pytest -q
 ```
 
-T
+
 Run the tests using the project's Python environment:
 
 ```bash
